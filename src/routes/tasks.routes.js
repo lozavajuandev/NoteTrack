@@ -1,26 +1,22 @@
-const { Router } = require('express');
+const { Router, json } = require("express");
+const db = require("./../database");
+const {
+  find,
+  findOne,
+  Create,
+  deleate,
+  update,
+} = require("../services/tasks.services");
 const router = Router();
 
-router.get('/tasks', (req, res) => {
-    res.send('Returning a list of task')
-})
+router.get("/tasks", find);
 
-router.get('/tasks/:Taskid', (req, res) => {
-    const { Taskid } = req.params;
-    res.send('Returning a singletask')
-})
+router.get("/tasks/:id", findOne);
 
-router.post('/tasks', (req, res) => {
-    res.send('Creating a task')
-})
+router.post("/tasks", Create);
 
-router.delete('/tasks', (req, res) => {
-    res.send('Deleating a task')
-})
+router.delete("/tasks/:id", deleate);
 
-router.put('/tasks', (req, res) => {
-    res.send('Updating a task')
-})
-
+router.put("/tasks/:id", update);
 
 module.exports = router;
