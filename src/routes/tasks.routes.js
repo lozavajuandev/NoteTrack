@@ -9,14 +9,15 @@ const {
 } = require("../services/tasks.services");
 const router = Router();
 
-router.get("/tasks", find);
+router.get("/", find);
 
-router.get("/tasks/:id", findOne);
+router.get("/:id", findOne);
 
-router.post("/tasks", Create);
+router.post("/", Create);
 
-router.delete("/tasks/:id", deleate);
+router.delete("/:id", deleate);
 
-router.put("/tasks/:id", update);
+router.put("/:id", update);
 
 module.exports = router;
+

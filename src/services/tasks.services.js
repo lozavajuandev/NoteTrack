@@ -1,5 +1,6 @@
 const { request } = require("express");
 const db = require("../database");
+const Boom  = require("@hapi/boom");
 
 const find = async (req, res, next) => {
   try {
@@ -16,9 +17,7 @@ const findOne = async (req, res, next) => {
     const { id } = req.params;
     const result = await db.query("SELECT * FROM tasks WHERE id = $1", [id]);
     if (result.rows.length === 0)
-      return res.status(404).json({
-        message: "Task not found",
-      });
+      throw Boom.notFound('Task Not Found');
     res.json(result.rows);
     console.log(result);
   } catch (error) {
@@ -35,7 +34,10 @@ const Create = async (req, res, next) => {
     );
 
     console.log(result);
-    res.send("Creating a task");
+    res.json({
+      message: "taskcreated",
+      data: result.rows,
+    });
   } catch (error) {
     next(error);
   }
@@ -66,6 +68,7 @@ const update = async (req, res, next) => {
     return res.status(404).json({
       message: "Task not found",
     });
+  console.log(result);
   res.json(result.rows[0]);
 };
 
