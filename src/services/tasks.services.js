@@ -35,7 +35,7 @@ const Create = async (req, res, next) => {
 
     console.log(result);
     res.json({
-      message: "taskcreated",
+      message: "task created",
       data: result.rows,
     });
   } catch (error) {
@@ -60,7 +60,7 @@ const update = async (req, res, next) => {
   const { title, description } = req.body;
 
   const result = await db.query(
-    "UPDATE tasks SET title= $1, description=$2 WHERE id = $3 RETURnING *",
+    "UPDATE tasks SET title= $1, description=$2 WHERE id = $3 RETURNING *",
     [title, description, id]
   );
 

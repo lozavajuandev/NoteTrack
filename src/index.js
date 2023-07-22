@@ -15,18 +15,9 @@ const ApiRouting = require("./routes/index");
 const app = express();
 
 //CORS
-const whitelist = ["http://localhost:8000"];
-const options = {
-  origin: (origin, cb) => {
-    if (whitelist.includes(origin)) {
-      cb(null, true);
-    } else {
-      cb(new Error("No esta permitido"));
-    }
-  },
-};
 
-app.use(cors(options));
+
+//app.use(cors(options));
 
 //USO DE MODULOS
 app.use(morgan("dev"));
