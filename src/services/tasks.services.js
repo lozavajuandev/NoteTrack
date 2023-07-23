@@ -1,10 +1,10 @@
 const { request } = require("express");
-const db = require("../database");
 const Boom  = require("@hapi/boom");
+const pool = require("../libs/pool");
 
 const find = async (req, res, next) => {
   try {
-    const result = await db.query("SELECT * FROM tasks");
+    const result = await pool.query("SELECT * FROM tasks");
     res.json(result.rows);
     console.log(result);
   } catch (error) {
@@ -15,7 +15,7 @@ const find = async (req, res, next) => {
 const findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await db.query("SELECT * FROM tasks WHERE id = $1", [id]);
+    const result = await pool.query("SELECT * FROM tasks WHERE id = $1", [id]);
     if (result.rows.length === 0)
       throw Boom.notFound('Task Not Found');
     res.json(result.rows);
@@ -28,7 +28,7 @@ const findOne = async (req, res, next) => {
 const Create = async (req, res, next) => {
   try {
     const { title, description } = req.body;
-    const result = await db.query(
+    const result = await pool.query(
       "INSERT INTO tasks (title, description) VALUES($1, $2) RETURNING *",
       [title, description]
     );
@@ -45,7 +45,7 @@ const Create = async (req, res, next) => {
 
 const deleate = async (req, res, next) => {
   const { id } = req.params;
-  const result = await db.query("DELETE FROM tasks WHERE id = $1", [id]);
+  const result = await pool.query("DELETE FROM tasks WHERE id = $1", [id]);
   if (result.rowCount === 0)
     return res.status(404).json({
       message: "Task not found",
@@ -59,7 +59,7 @@ const update = async (req, res, next) => {
   const { id } = req.params;
   const { title, description } = req.body;
 
-  const result = await db.query(
+  const result = await pool.query(
     "UPDATE tasks SET title= $1, description=$2 WHERE id = $3 RETURNING *",
     [title, description, id]
   );

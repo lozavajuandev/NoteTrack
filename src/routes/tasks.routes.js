@@ -1,5 +1,4 @@
 const { Router, json } = require("express");
-const db = require("./../database");
 const {
   find,
   findOne,
